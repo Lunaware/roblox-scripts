@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 --[[
 
 	>> -- Apollo Client -- << Created by Lunaware >> --
