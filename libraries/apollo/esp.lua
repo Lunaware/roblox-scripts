@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
+----------------------------------------
 getgenv().esp_objects = {}
 
 getgenv().isEspEnabled = function(esp_object)
