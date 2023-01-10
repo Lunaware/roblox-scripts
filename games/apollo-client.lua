@@ -1429,7 +1429,7 @@ local AutoHeal_Enabled = Toggles.AutoHeal_Enabled
 -- Options
 local AutoHeal_Slider = Options.AutoHeal_Slider
 Connections.RenderStepped = RunService.RenderStepped:Connect(function(deltaTime)
-	if os.clock() - espRefreshRate > 0.025 then espRefreshRate = os.clock() UpdateEsp() end
+	if os.clock() - espRefreshRate > 0.01 then espRefreshRate = os.clock() UpdateEsp() end
 	if os.clock() - dropdownRefreshRate > 1 then dropdownRefreshRate = os.clock() UpdateDropdowns() end
 
 	UpdateDataViewer()
