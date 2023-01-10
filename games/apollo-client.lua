@@ -1,13 +1,5 @@
 ---@diagnostic disable: undefined-global
 
---[[
-
-	>> -- Apollo Client -- << Created by Lunaware >> --
-
-	didn't bother obfuscating due to performance issues
-
---]]
-
 -- Constants
 local BUILD_ID			= "C0eF43"
 
@@ -88,14 +80,6 @@ local linoria_lib	= moduleImport("libraries/user-interface/linoria/library")
 local save_manager	= moduleImport("libraries/user-interface/linoria/save-manager")
 local theme_manager	= moduleImport("libraries/user-interface/linoria/theme-manager")
 local contact		= moduleImport("public/contact")
-local blacklists	= moduleImport("libraries/apollo/blacklists")
-
--- Blacklists
-if table.find(blacklists, LocalPlayer.UserId) then
-	NoteEvent:Fire("Apollo Client", "You have been blacklisted from Apollo.", "Error")
-	NoteEvent:Fire("Appeal Information", "If you want to appeal, contact ".. contact)
-	return
-end
 
 -- Load User Interface
 local Window = linoria_lib:CreateWindow({
@@ -1429,7 +1413,7 @@ local AutoHeal_Enabled = Toggles.AutoHeal_Enabled
 -- Options
 local AutoHeal_Slider = Options.AutoHeal_Slider
 Connections.RenderStepped = RunService.RenderStepped:Connect(function(deltaTime)
-	if os.clock() - espRefreshRate > 0.01 then espRefreshRate = os.clock() UpdateEsp() end
+	if os.clock() - espRefreshRate > 0.025 then espRefreshRate = os.clock() UpdateEsp() end
 	if os.clock() - dropdownRefreshRate > 1 then dropdownRefreshRate = os.clock() UpdateDropdowns() end
 
 	UpdateDataViewer()
