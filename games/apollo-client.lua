@@ -4,22 +4,7 @@
 
 	>> -- Apollo Client -- << Created by Lunaware >> --
 
-	Credits:
-		- Wanwood - Participating in the Clam War.
-		- glowahh - Emotional support.
-		- GFXTI - Inspiration to make Apollo because of my refusal to use Athena.
-
-	Blacklisting Rules:
-
-		- define: blacklist
-			- You will not be able to use the UI.
-			- The script MAY intentionally ban you from Electric State DarkRP.
-
-		- If you are hated, you will be blacklisted.
-		- If you reverse engineer Apollo, you will be blacklisted.
-		- If you try to deobfuscate my obfuscator, you will be blacklisted.
-		- If you abuse Apollo, you will be blacklisted.
-		- If you skid ideas from Apollo, you will be blacklisted.
+	didn't bother obfuscating due to performance issues
 
 --]]
 
