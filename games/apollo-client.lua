@@ -136,22 +136,22 @@ Legit:AddToggle("BetterCaneReload", {Text = "Better Cane Reload", Default = fals
 do -- Fix Cane Flight
 	local Globals = getrenv()._G
 
-	-- Flight Module
-	local Flight do
-		for _, instance in pairs(getnilinstances()) do
-			if instance.Name == "FLY" and instance.ClassName == "ModuleScript" then
-				Flight = require(instance)
-				break
-			end
-		end
-	end
-
 	-- Toggle
 	Legit:AddToggle("FixCaneFlight", {Text = "Fix Cane Flight", Default = false, Tooltip = "Fixes the cane flight system."})
 
 	-- Listener
 	local FixCaneFlight = Toggles.FixCaneFlight
 	FixCaneFlight:OnChanged(function()
+		-- Flight Module
+		local Flight do
+			for _, instance in pairs(getnilinstances()) do
+				if instance.Name == "FLY" and instance.ClassName == "ModuleScript" then
+					Flight = require(instance)
+					break
+				end
+			end
+		end
+
 		rawset(Globals, "F", FixCaneFlight.Value and Flight.Fly or nil)
 	end)
 end
