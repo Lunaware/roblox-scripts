@@ -133,6 +133,29 @@ Legit:AddToggle("HideItems", {Text = "Hide Items", Default = false, Tooltip = "P
 
 Legit:AddToggle("BetterCaneReload", {Text = "Better Cane Reload", Default = false, Tooltip = "Modifies the Gentleman's Cane Reload to be the second (and better) one."})
 
+do -- Fix Cane Flight
+	local Globals = getrenv()._G
+
+	-- Flight Module
+	local Flight do
+		for _, instance in pairs(getnilinstances()) do
+			if instance.Name == "FLY" and instance.ClassName == "ModuleScript" then
+				Flight = require(instance)
+				break
+			end
+		end
+	end
+
+	-- Toggle
+	Legit:AddToggle("FixCaneFlight", {Text = "Fix Cane Flight", Default = false, Tooltip = "Fixes the cane flight system."})
+
+	-- Listener
+	local FixCaneFlight = Toggles.FixCaneFlight
+	FixCaneFlight:OnChanged(function()
+		rawset(Globals, "F", FixCaneFlight.Value and Flight.Fly or nil)
+	end)
+end
+
 -- Blatant --
 local Blatant = Tabs.Character:AddLeftGroupbox("Blatant")
 
@@ -1417,7 +1440,7 @@ local AutoHeal_Enabled = Toggles.AutoHeal_Enabled
 -- Options
 local AutoHeal_Slider = Options.AutoHeal_Slider
 Connections.RenderStepped = RunService.RenderStepped:Connect(function(deltaTime)
-	if os.clock() - espRefreshRate > 0.005 then espRefreshRate = os.clock() UpdateEsp() end
+	if os.clock() - espRefreshRate > 0.005 then espRefreshRate = os.clock() pcall(UpdateEsp) end
 	if os.clock() - dropdownRefreshRate > 1 then dropdownRefreshRate = os.clock() UpdateDropdowns() end
 
 	UpdateDataViewer()
@@ -1628,13 +1651,12 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	end
 
 	-- Gentleman's Cane (Better Reload)
-	if BetterCaneReload.Value and method == "Play" and instance == "Reload" and (self.Parent and self.Parent.Name == "Handle") then
-		local Handle = self.Parent
-
-		if Handle.Parent and Handle.Parent.Name == "[PERM] Gentleman's Cane" then
-			local Reload = Handle:FindFirstChild("Reload2")
+	if BetterCaneReload.Value and (method == "Play" or method == "Resume") and instance == "Reload" and self.ClassName == "Sound" then
+		local Tool = self:FindFirstAncestorOfClass("Tool")
+		if Tool and Tool.Name == "[PERM] Gentleman's Cane" then
+			local Reload = Tool:FindFirstChild("Handle") and Tool.Handle:FindFirstChild("Reload2")
 	
-			return Reload:Play()
+			return __namecall(Reload, ...)
 		end
 	end
 
