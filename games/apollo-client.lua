@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global
 
 -- Constants
-local BUILD_ID			= "C0eF43"
+local BUILD_ID			= "90dFe3"
 
 -- Services
 local Drawing			= Drawing
@@ -130,6 +130,8 @@ Legit:AddToggle("InfEnergy", {Text = "Infinite Energy", Default = false, Tooltip
 Legit:AddToggle("InfHunger", {Text = "Infinite Hunger", Default = false, Tooltip = "Grants you infinite hunger."})
 
 Legit:AddToggle("HideItems", {Text = "Hide Items", Default = false, Tooltip = "Prevents items from holstering."})
+
+Legit:AddToggle("BetterCaneReload", {Text = "Better Cane Reload", Default = false, Tooltip = "Modifies the Gentleman's Cane Reload to be the second (and better) one."})
 
 -- Blatant --
 local Blatant = Tabs.Character:AddLeftGroupbox("Blatant")
@@ -1082,6 +1084,7 @@ local ESP_Neutral = Options.ESP_Neutral
 local function UpdateEsp()
 	for index, esp_object in pairs(esp_objects) do
 		local can_update = true
+		local removing = false
 
 		if not index or not index.Parent then
 			esp_object.Highlight:Destroy()
@@ -1093,6 +1096,7 @@ local function UpdateEsp()
 			esp_objects[index] = nil
 
 			can_update = false
+			removing = true
 		end
 
 		local object_type = esp_object.Type
@@ -1107,7 +1111,7 @@ local function UpdateEsp()
 			end
 		end
 
-		if can_update == false then
+		if can_update == false and not removing then
 			esp_object.Name.Visible = false
 			esp_object.Info.Visible = false
 			esp_object.Tracer.Visible = false
@@ -1574,6 +1578,8 @@ local BypassSpyChecks = Toggles.BypassSpyChecks
 
 local HideItems = Toggles.HideItems
 
+local BetterCaneReload = Toggles.BetterCaneReload
+
 __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	local instance = tostring(self)
 
@@ -1624,6 +1630,20 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	-- Preventing Death
 	if not isTrustedCall and method == "Destroy" and instance == "Humanoid" then
 		return
+	end
+
+	-- Gentleman's Cane (Better Reload)
+	if BetterCaneReload.Value and method == "Play" and instance == "Sound" then
+		local Tool = self:FindFirstAncestorOfClass("Tool")
+		if self.Name == "Reload" and Tool and string.find(Tool.Name, "Gentleman's Cane") then
+			local Reload = Tool:FindFirstChild("Handle") and Tool.Handle:FindFirstChild("Reload2")
+
+			if Reload then
+				Reload:Play()
+			end
+
+			return
+		end
 	end
 
 	return __namecall(self, ...)
