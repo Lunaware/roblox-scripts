@@ -1628,7 +1628,7 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	end
 
 	-- Gentleman's Cane (Better Reload)
-	if BetterCaneReload.Value and (method == "Play" or method == "Resume") and self:IsA("Sound") and instance == "Reload" then
+	if BetterCaneReload.Value and (method == "Play" or method == "Resume") and instance == "Reload" and self.ClassName == "Sound" then
 		local Tool = self:FindFirstAncestorOfClass("Tool")
 		if Tool and Tool.Name == "[PERM] Gentleman's Cane" then
 			local Reload = Tool:FindFirstChild("Handle") and Tool.Handle:FindFirstChild("Reload2")
