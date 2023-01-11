@@ -1628,12 +1628,13 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	end
 
 	-- Gentleman's Cane (Better Reload)
-	if BetterCaneReload.Value and (method == "Play" or method == "Resume") and instance == "Reload" and self.ClassName == "Sound" then
-		local Tool = self:FindFirstAncestorOfClass("Tool")
-		if Tool and Tool.Name == "[PERM] Gentleman's Cane" then
-			local Reload = Tool:FindFirstChild("Handle") and Tool.Handle:FindFirstChild("Reload2")
+	if BetterCaneReload.Value and method == "Play" and instance == "Reload" and (self.Parent and self.Parent.Name == "Handle") then
+		local Handle = self.Parent
+
+		if Handle.Parent and Handle.Parent.Name == "[PERM] Gentleman's Cane" then
+			local Reload = Handle:FindFirstChild("Reload2")
 	
-			return __namecall(Reload, ...)
+			return Reload:Play()
 		end
 	end
 
