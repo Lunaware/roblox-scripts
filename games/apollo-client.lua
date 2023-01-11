@@ -1633,7 +1633,7 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 		if Tool and Tool.Name == "[PERM] Gentleman's Cane" then
 			local Reload = Tool:FindFirstChild("Handle") and Tool.Handle:FindFirstChild("Reload2")
 	
-			return __namecall(Reload, ...)
+			return Reload:Play()
 		end
 	end
 
