@@ -1594,7 +1594,7 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	-- Instant Craft
 	if InstantCraft.Value then
 		if method == "TweenSize" and args[1] == ProgressBar.Frame.Frame and ProgressBar.TextLabel.Text == "Crafting..." then
-			args[5] = 0.001
+			args[4] = 0.001
 
 			return __namecall(self, unpack(args))
 		end
@@ -1603,7 +1603,7 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 	-- Instant Battering Ram
 	if InstantBatteringRam.Value then
 		if method == "TweenSize" and args[1] == ProgressBar.Frame.Frame and ProgressBar.TextLabel.Text == "Ramming Door" then
-			args[5] = 0.001
+			args[4] = 0.001
 
 			return __namecall(self, unpack(args))
 		end
