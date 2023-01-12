@@ -595,7 +595,10 @@ local Conditions = {
 			SkyboxRt = "rbxassetid://2506974153",
 			SkyboxUp = "rbxassetid://2506974467"
 		}
-	}
+	},
+	["Enable Rain"] = {
+		Condition = "Rain",
+	},
 }
 
 for Condition, Data in pairs(Conditions) do
