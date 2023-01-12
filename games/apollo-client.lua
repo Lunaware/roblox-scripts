@@ -102,7 +102,7 @@ theme_manager:SetLibrary(linoria_lib)
 save_manager:SetLibrary(linoria_lib)
 
 save_manager:IgnoreThemeSettings()
-save_manager:SetIgnoreIndexes({'MenuKeybind'})
+save_manager:SetIgnoreIndexes({'MenuKeybind, NodeSizeChanger'})
 
 theme_manager:SetFolder('Apollo Client')
 save_manager:SetFolder('Apollo Client/Electric State DarkRP')
@@ -679,7 +679,7 @@ HealAura:AddDropdown("HealAura_Whitelist", {Values = ActivePlayers, Multi = true
 -- Player List --
 local Player = Tabs.Players:AddLeftGroupbox("<b>Player List</b>")
 
-Player:AddDropdown("Player_Selection", {Values = ActivePlayers, Text = ""})
+Player:AddDropdown("Player_Selection", {Values = ActivePlayers, Text = "", Compact = true})
 
 -- Data Viewer --
 local DataViewer = Tabs.Players:AddRightGroupbox("Data Viewer")
@@ -703,7 +703,7 @@ local DataViewerLabels = {
 }
 
 -- Player Options --
-local PlayerOptions = Tabs.Players:AddLeftGroupbox("<b>Options</b>")
+local PlayerOptions = Tabs.Players:AddLeftGroupbox("<b>Player Options</b>")
 
 local Buildings = workspace:WaitForChild("Buildings")
 
@@ -912,6 +912,55 @@ end
 PlayerOptions:AddButton("Copy Node <b>[Beta]</b>", copyNode)
 PlayerOptions:AddButton("Copy Outfit", copyOutfit)
 PlayerOptions:AddButton("Copy Jukebox Audio", copyJukeboxAudio)
+
+-- Node Options --
+local NodeOptions = Tabs.Players:AddLeftGroupbox("<b>Node Options</b>")
+
+do -- Node Size Changer
+	-- Function
+	local function editNodeSize (integer)
+		local playerSelection = Player_Selection.Value
+		local SizeVal = Vector3.new(integer, integer, integer)
+		
+		if not playerSelection then
+			return
+		end
+
+		local selectedPlayer = Players:FindFirstChild(playerSelection)
+		if not selectedPlayer then
+			return
+		end
+
+		local Building = Buildings:FindFirstChild(selectedPlayer.Name)
+
+		if not Building or Building.ClassName == "Model" then
+			return
+		end
+
+		local Node = Building:FindFirstChild("Node")
+
+		if Node then
+			local nodePart = Node:WaitForChild("Node", 1/0)
+			local nodeMesh = nodePart:WaitForChild("Mesh", 1/0)
+
+			nodeMesh.Scale = SizeVal
+		end
+	end
+
+	-- Slider
+	NodeOptions:AddSlider("NodeSizeChanger", {Text = "Node Size", Default = 60, Min = 1, Max = 200, Rounding = 1, Compact = true})
+	local NodeSizeChanger = Options.NodeSizeChanger
+
+	-- Button
+	NodeOptions:AddButton("Reset to Default", function()
+		editNodeSize(60)
+	end)
+
+	-- Listener
+	NodeSizeChanger:OnChanged(function()
+		editNodeSize(NodeSizeChanger.Value)
+	end)
+end
 
 -- >> Functionality << --
 
